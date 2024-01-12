@@ -1,0 +1,49 @@
+name: dev-minoan-gmail
+on: 
+  workflow_dispatch:
+  push:
+    paths-ignore:
+    - '.github/**' # Ignore changes towards the .github directory
+    branches:
+    - main # Only trigger on the main branch
+
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Git checkout
+      uses: actions/checkout@v1
+    - run: npm install
+    - run: tar zcf api-service.tar.gz *
+    - name: executing remote ssh commands using ssh key
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.minoangmail_EC2_KEY }}
+        SOURCE: "api-service.tar.gz"
+        REMOTE_HOST: ${{ secrets.minoangmail_EC2_HOST }}
+        REMOTE_USER: ${{ secrets.minoangmail_EC2_USER }}
+        TARGET: ${{ secrets.minoangmail_EC2_TARGET }}
+  deploy:
+    needs: build
+    name: "Deploy to server"
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/test.key
+          chmod 600 ~/.ssh/test.key
+          cat >>~/.ssh/config <<END
+          Host test
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/test.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.minoangmail_EC2_USER }}
+          SSH_KEY: ${{ secrets.minoangmail_EC2_KEY }}
+          SSH_HOST: ${{ secrets.minoangmail_EC2_HOST }}
+      - name: server
+        run: ssh test 'sudo cp /home/ubuntu/api-service.tar.gz /var/www/dev-minoan-gmail && cd /var/www/dev-minoan-gmail && sudo tar zxf api-service.tar.gz && sudo rm -rf api-service.tar.gz && sudo pm2 restart dev-minoan-gmail'
