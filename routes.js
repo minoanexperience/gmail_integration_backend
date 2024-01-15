@@ -35,7 +35,7 @@ async function getMails(pageToken){
 
     const relist = await gmail.users.messages.list({
         userId: 'me',
-        maxResults: 20,
+        maxResults: 10,
         // pageToken: pageToken
     });
 
