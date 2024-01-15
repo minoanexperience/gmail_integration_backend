@@ -371,16 +371,16 @@ async function updateShippingCron(){
 
 
 
-cron.schedule("*/100  * * * * *", async function() {
-    console.log("running a task every 100 second");
-
-    if(!cronInProgress && oauth2Client !== null) {
-        console.log("begin cron")
-        cronInProgress = true
-        await updateShippingCron()
-        cronInProgress = false
-    }
-});
+// cron.schedule("*/100  * * * * *", async function() {
+//     console.log("running a task every 100 second");
+//
+//     if(!cronInProgress && oauth2Client !== null) {
+//         console.log("begin cron")
+//         cronInProgress = true
+//         await updateShippingCron()
+//         cronInProgress = false
+//     }
+// });
 
 
 module.exports = router;
