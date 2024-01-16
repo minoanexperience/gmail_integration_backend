@@ -32,13 +32,13 @@ function getFilterString(filter){
     if(!filter) return "";
     let filterString = ""
     if(filter.From){
-        filter = "from:" + filter.From
+        filterString = "from:" + filter.From
     }
     if(filter.To){
-        if(filter) filter = filter + " OR ";
-        filter = filter + "to:" + filter.To
+        if(filterString) filterString = filterString + " OR ";
+        filterString = filterString + "to:" + filter.To
     }
-    return filter
+    return filterString
 }
 
 async function getMails(pageToken, filter){
