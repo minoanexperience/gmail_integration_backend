@@ -94,13 +94,13 @@ router.post('/auth', async (req, res) => {
     // }
 
 
-    // let {tokens} = await oauth2Client.getToken(code);
-    // console.log(tokens, "response")
-    let tokens = {
-        refresh_token: '1//05lOlv2KZIQ3GCgYIARAAGAUSNwF-L9Ir51tY2HUNU0fnpmva94u2lhWH327rJMiS5wHq6DyLSJhARhQClL8I4cSPjEZ-7jK2tTg',
-        scope: 'https://www.googleapis.com/auth/gmail.readonly',
-        token_type: 'Bearer'
-    }
+    let {tokens} = await oauth2Client.getToken(code);
+    console.log(tokens, "response")
+    // let tokens = {
+    //     refresh_token: '1//05lOlv2KZIQ3GCgYIARAAGAUSNwF-L9Ir51tY2HUNU0fnpmva94u2lhWH327rJMiS5wHq6DyLSJhARhQClL8I4cSPjEZ-7jK2tTg',
+    //     scope: 'https://www.googleapis.com/auth/gmail.readonly',
+    //     token_type: 'Bearer'
+    // }
     oauth2Client.setCredentials(tokens);
 
     // gapiLoaded()
@@ -205,7 +205,8 @@ async function handleMailSync(email, oauth2Client){
     } while(pageToken && ++count < 2);
 }
 
-async function bulkSync(oauth2Client){
+function bulkSync(oauth2Client){
+    console.log("bulkSync")
     let userEmails = []
 
     userEmails.forEach((userEmail) => {
