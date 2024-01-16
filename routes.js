@@ -371,7 +371,6 @@ async function updateShippingCron(){
     // console.log(historyId);
 }
 
-
 // cron.schedule("*/100  * * * * *", async function() {
 //     console.log("running a task every 100 second");
 //
