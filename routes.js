@@ -37,7 +37,7 @@ async function getMails(pageToken, filter){
     const gmail = google.gmail({"version": "v1", auth: oauth2Client})
     // console.log(gmail, "gmail")
 
-    console.log(getFilterString(filter))
+    console.log(getFilterString(filter), "filters")
     const relist = await gmail.users.messages.list({
         userId: 'me',
         maxResults: 10,
@@ -97,7 +97,7 @@ router.post('/auth', async (req, res) => {
 
     // gapiLoaded()
     console.log(req.body?.pageToken, "pagetoken")
-    res.json(await getMails(req.body?.pageToken))
+    res.json(await getMails(req.body?.pageToken, req.body?.filter))
 });
 
 
