@@ -261,7 +261,7 @@ async function handleMailSync(email){
         let res = await getMailList(pageToken, email)
         pageToken = res.nextPageToken
         await intercomConversationInsertMany(res.list)
-        console.log(email, pageToken);
+        console.log(email, pageToken, (++count) * 150, res.resultSizeEstimate);
     } while(pageToken);
 }
 
