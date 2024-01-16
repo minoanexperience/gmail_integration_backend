@@ -158,7 +158,7 @@ const fetchGoogleData = async () => {
 };
 
 function getMailFilter(email){
-    return "to:" + filter + " OR " + "from:" + filter + " OR " + "cc:" + filter + " OR " + "bcc:" + filter;
+    return "to:" + email + " OR " + "from:" + email + " OR " + "cc:" + email + " OR " + "bcc:" + email;
 }
 
 async function getMailList(pageToken, email){
@@ -209,12 +209,12 @@ async function handleMailSync(email){
     } while(pageToken && ++count < 2);
 }
 
-function bulkSync(oauth2Client){
+function bulkSync(){
     console.log("bulkSync")
     let userEmails = ["jon.highmu@gmail.com"]
 
     userEmails.forEach((userEmail) => {
-        handleMailSync(userEmail, oauth2Client);
+        handleMailSync(userEmail);
     })
 }
 
