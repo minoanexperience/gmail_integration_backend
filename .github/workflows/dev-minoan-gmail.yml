@@ -1,5 +1,6 @@
 name: dev-minoan-gmail
-on: push
+on:
+  push:
     paths-ignore:
     - '.github/**' # Ignore changes towards the .github directory
     branches:
