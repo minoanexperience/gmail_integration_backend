@@ -75,23 +75,19 @@ router.post('/auth', async (req, res) => {
     //     res.json({redirectUrl: result});
     // }
 
-
-
-    if(!code || code !== "none"){
-        console.log("inside if")
-        console.log(req.body?.pageToken, "pagetoken")
-        res.json(await getMails(req.body?.pageToken))
+    if(!code || code === "none"){
+        res.status(400).json({ error: 'Error getting code for authorisation' });
     }
-    else {
 
-        let {tokens} = await oauth2Client.getToken(code);
-        console.log(tokens, "response")
-        oauth2Client.setCredentials(tokens);
 
-        // gapiLoaded()
-        console.log(req.body?.pageToken, "pagetoken")
-        res.json(await getMails(req.body?.pageToken))
-    }
+
+    let {tokens} = await oauth2Client.getToken(code);
+    console.log(tokens, "response")
+    oauth2Client.setCredentials(tokens);
+
+    // gapiLoaded()
+    console.log(req.body?.pageToken, "pagetoken")
+    res.json(await getMails(req.body?.pageToken))
 });
 
 
