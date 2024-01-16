@@ -100,15 +100,14 @@ router.post('/auth', async (req, res) => {
     //     scope: 'https://www.googleapis.com/auth/gmail.readonly',
     //     token_type: 'Bearer'
     // }
-    // oauth2Client.setCredentials(tokens);
+    oauth2Client.setCredentials(tokens);
 
-    // gapiLoaded()
-    // console.log(req.body?.pageToken, "pagetoken")
-    // res.json(await getMails(req.body?.pageToken, req.body?.filter))
+    console.log(req.body?.pageToken, "pagetoken")
+    res.json(await getMails(req.body?.pageToken, req.body?.filter))
 
-    res.json({
-        "res": "done"
-    })
+    // res.json({
+    //     "res": "done"
+    // })
 });
 
 
@@ -161,6 +160,11 @@ function getMailFilter(email){
     return "to:" + email + " OR " + "from:" + email + " OR " + "cc:" + email + " OR " + "bcc:" + email;
 }
 
+function filterData(data){
+    console.log(data, "data")
+    return data
+}
+
 async function getMailList(pageToken, email){
     const gmail = google.gmail({"version": "v1", auth: oauth2Client})
     // console.log(gmail, "gmail")
@@ -179,14 +183,14 @@ async function getMailList(pageToken, email){
     let mailList = []
     for (let i = 0; i < relist.data.messages.length; i++){
         const message = relist.data.messages[i];
-        console.log(message, "message")
+        // console.log(message, "message")
         const msg = await gmail.users.messages.get({
             userId: 'me',
             id: message.id,
             format: "full"
         });
         // console.log(msg.data, "msg")
-        mailList.push(msg.data)
+        mailList.push(filterData(msg.data))
     }
 
     // console.log(mailList, "mailList")
