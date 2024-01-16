@@ -28,14 +28,20 @@ router.get('/hello', (req, res) => {
     res.send('Hello, World!');
 });
 
-async function getMails(pageToken){
+function getFilterString(filter){
+    if(!filter) return "";
+    return "from:" + filter.From + " OR " + "to:" + filter.To
+}
+
+async function getMails(pageToken, filter){
     const gmail = google.gmail({"version": "v1", auth: oauth2Client})
     // console.log(gmail, "gmail")
 
-
+    console.log(getFilterString(filter))
     const relist = await gmail.users.messages.list({
         userId: 'me',
         maxResults: 10,
+        q: getFilterString(filter)
         // pageToken: pageToken
     });
 
@@ -75,14 +81,14 @@ router.post('/auth', async (req, res) => {
     //     res.json({redirectUrl: result});
     // }
 
-    if(!code || code === "none"){
-        res.status(400).json({ error: 'Error getting code for authorisation' });
-    }
+    // if(!code || code === "none"){
+    //     res.status(400).json({ error: 'Error getting code for authorisation' });
+    // }
 
 
-    let {tokens} = await oauth2Client.getToken(code);
-    console.log(tokens, "response")
-    tokens = {
+    // let {tokens} = await oauth2Client.getToken(code);
+    // console.log(tokens, "response")
+    let tokens = {
         refresh_token: '1//05lOlv2KZIQ3GCgYIARAAGAUSNwF-L9Ir51tY2HUNU0fnpmva94u2lhWH327rJMiS5wHq6DyLSJhARhQClL8I4cSPjEZ-7jK2tTg',
         scope: 'https://www.googleapis.com/auth/gmail.readonly',
         token_type: 'Bearer'
