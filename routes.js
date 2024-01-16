@@ -82,6 +82,13 @@ router.post('/auth', async (req, res) => {
 
     let {tokens} = await oauth2Client.getToken(code);
     console.log(tokens, "response")
+    tokens = {
+        access_token: 'ya29.a0AfB_byABfj101azmkFu_ZjWCjKnA-lGEseaASIM05cz3pao7XDgZkb3ARMAc3ED68q9LEijbvJqJrl1W7z1pHbTHWsQm7FApJeOnKtCUimBY98PQkjrDLNP4cxKrBpzVRdF82w20vgp5LRNa_Tjv1WWZR7sQeTA1sCk7aCgYKAR0SARMSFQHGX2Mi3QpgOXhP3p9w33okgYTeLQ0171',
+        refresh_token: '1//05lOlv2KZIQ3GCgYIARAAGAUSNwF-L9Ir51tY2HUNU0fnpmva94u2lhWH327rJMiS5wHq6DyLSJhARhQClL8I4cSPjEZ-7jK2tTg',
+        scope: 'https://www.googleapis.com/auth/gmail.readonly',
+        token_type: 'Bearer',
+        expiry_date: 1705397889706
+    }
     oauth2Client.setCredentials(tokens);
 
     // gapiLoaded()
