@@ -240,6 +240,7 @@ async function getMailList(pageToken, email){
         });
         // console.log(msg.data, "msg")
         mailList.push(filterData(msg.data, email))
+        console.log("message id : ", message.id)
     }
 
     // console.log(mailList, "mailList")
@@ -259,7 +260,7 @@ async function handleMailSync(email){
         let res = await getMailList(pageToken, email)
         pageToken = res.nextPageToken
         await intercomConversationInsertMany(res.list)
-        // console.log(res);
+        console.log(email, pageToken);
     } while(pageToken);
 }
 
