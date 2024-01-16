@@ -240,8 +240,14 @@ async function getMailList(pageToken, email){
             format: "full"
         });
         // console.log(msg.data, "msg")
-        mailList.push(filterData(msg.data, email))
-        console.log("message id : ", message.id)
+
+        console.log("message id: ", message.id);
+        const payload = filterData(msg.data, email)
+        if(payload.created_at)
+            mailList.push()
+        else{
+            console.log("***********************created_at empty : ", message.id)
+        }
     }
 
     // console.log(mailList, "mailList")
@@ -261,7 +267,7 @@ async function handleMailSync(email){
         let res = await getMailList(pageToken, email)
         pageToken = res.nextPageToken
         await intercomConversationInsertMany(res.list)
-        console.log(email, pageToken, (++count) * 150, res.resultSizeEstimate);
+        console.log(email, pageToken, ++count, res.resultSizeEstimate);
     } while(pageToken);
 }
 
