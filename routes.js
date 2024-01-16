@@ -80,7 +80,6 @@ router.post('/auth', async (req, res) => {
     }
 
 
-
     let {tokens} = await oauth2Client.getToken(code);
     console.log(tokens, "response")
     oauth2Client.setCredentials(tokens);
