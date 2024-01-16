@@ -100,11 +100,15 @@ router.post('/auth', async (req, res) => {
     //     scope: 'https://www.googleapis.com/auth/gmail.readonly',
     //     token_type: 'Bearer'
     // }
-    oauth2Client.setCredentials(tokens);
+    // oauth2Client.setCredentials(tokens);
 
     // gapiLoaded()
-    console.log(req.body?.pageToken, "pagetoken")
-    res.json(await getMails(req.body?.pageToken, req.body?.filter))
+    // console.log(req.body?.pageToken, "pagetoken")
+    // res.json(await getMails(req.body?.pageToken, req.body?.filter))
+
+    res.json({
+        "res": "done"
+    })
 });
 
 
