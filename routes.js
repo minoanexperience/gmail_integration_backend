@@ -157,7 +157,7 @@ function getMailFilter(email){
     return "to:" + filter + " OR " + "from:" + filter + " OR " + "cc:" + filter + " OR " + "bcc:" + filter;
 }
 
-async function getMailList(pageToken, email, oauth2Client){
+async function getMailList(pageToken, email){
     const gmail = google.gmail({"version": "v1", auth: oauth2Client})
     // console.log(gmail, "gmail")
 
@@ -194,12 +194,12 @@ async function getMailList(pageToken, email, oauth2Client){
     }
 }
 
-async function handleMailSync(email, oauth2Client){
+async function handleMailSync(email){
     console.log("handleMailSync")
     let pageToken = ""
     let count = 0;
     do {
-        let res = await getMailList(email, oauth2Client)
+        let res = await getMailList(pageToken, email)
         pageToken = res.nextPageToken
         console.log(res);
     } while(pageToken && ++count < 2);
@@ -216,11 +216,11 @@ function bulkSync(oauth2Client){
 
 router.post('/bulkSync', async (req, res) => {
     console.log("/bulkSync")
-    let oauth2Client = new google.auth.OAuth2(
-        CLIENT_ID,
-        CLIENT_SECRET,
-        "https://minoan-gmail.minoanexperience.com/auth"
-    );
+    // let oauth2Client = new google.auth.OAuth2(
+    //     CLIENT_ID,
+    //     CLIENT_SECRET,
+    //     "https://minoan-gmail.minoanexperience.com/auth"
+    // );
 
     let tokens = {
         refresh_token: '1//05NClkIxjE-GZCgYIARAAGAUSNwF-L9Ir4Y33YgIB8B8H8XSzgJtvXW5ypOB-w_T2Db68GqQdtx9Dtjt090VtUHsPnjNWEHFpv28',
@@ -229,7 +229,7 @@ router.post('/bulkSync', async (req, res) => {
     }
     oauth2Client.setCredentials(tokens);
     console.log("oauth2Client", oauth2Client)
-    bulkSync(oauth2Client)
+    bulkSync()
 
     res.json({
         "res": "done"
