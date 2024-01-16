@@ -77,7 +77,7 @@ router.post('/auth', async (req, res) => {
 
 
 
-    if(oauth2Client){
+    if(!code || code !== "none"){
         console.log("inside if")
         console.log(req.body?.pageToken, "pagetoken")
         res.json(await getMails(req.body?.pageToken))
