@@ -30,7 +30,15 @@ router.get('/hello', (req, res) => {
 
 function getFilterString(filter){
     if(!filter) return "";
-    return "from:" + filter.From + " OR " + "to:" + filter.To
+    let filterString = ""
+    if(filter.From){
+        filter = "from:" + filter.From
+    }
+    if(filter.To){
+        if(filter) filter = filter + " OR ";
+        filter = filter + "to:" + filter.To
+    }
+    return filter
 }
 
 async function getMails(pageToken, filter){
