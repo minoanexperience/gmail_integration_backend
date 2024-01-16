@@ -154,6 +154,81 @@ const fetchGoogleData = async () => {
     return authorizationUrl;
 };
 
+function getMailFilter(email){
+    return "to:" + filter + " OR " + "from:" + filter + " OR " + "cc:" + filter + " OR " + "bcc:" + filter;
+}
+
+async function getMailList(pageToken, email, oauth2Client){
+    const gmail = google.gmail({"version": "v1", auth: oauth2Client})
+    // console.log(gmail, "gmail")
+
+    console.log(getMailFilter(email), "filters")
+    const relist = await gmail.users.messages.list({
+        userId: 'me',
+        maxResults: 10,
+        q: getFilterString(email),
+        pageToken: pageToken
+    });
+
+
+    // console.log(relist, "list");
+
+    let mailList = []
+    for (let i = 0; i < relist.data.messages.length; i++){
+        const message = relist.data.messages[i];
+        console.log(message, "message")
+        const msg = await gmail.users.messages.get({
+            userId: 'me',
+            id: message.id,
+            format: "full"
+        });
+        // console.log(msg.data, "msg")
+        mailList.push(msg.data)
+    }
+
+    // console.log(mailList, "mailList")
+
+    return {
+        list: mailList,
+        nextPageToken: relist.data?.nextPageToken,
+        resultSizeEstimate: relist.data.resultSizeEstimate
+    }
+}
+
+async function handleMailSync(email, oauth2Client){
+    let pageToken = ""
+    let count = 0;
+    do {
+        let res = await getMailList(email, oauth2Client)
+        pageToken = res.nextPageToken
+        console.log(res);
+    } while(pageToken && ++count < 2);
+}
+
+async function bulkSync(oauth2Client){
+    let userEmails = []
+
+    userEmails.forEach((userEmail) => {
+        handleMailSync(userEmail, oauth2Client);
+    })
+}
+
+router.post('/bulkSync', async () => {
+    let oauth2Client = new google.auth.OAuth2(
+        CLIENT_ID,
+        CLIENT_SECRET,
+        "https://minoan-gmail.minoanexperience.com/auth"
+    );
+
+    let tokens = {
+        refresh_token: '1//05lOlv2KZIQ3GCgYIARAAGAUSNwF-L9Ir51tY2HUNU0fnpmva94u2lhWH327rJMiS5wHq6DyLSJhARhQClL8I4cSPjEZ-7jK2tTg',
+        scope: 'https://www.googleapis.com/auth/gmail.readonly',
+        token_type: 'Bearer'
+    }
+    oauth2Client.setCredentials(tokens);
+    bulkSync(oauth2Client)
+})
+
 
 let historyId = 0;
 let cronInProgress = false;
