@@ -134,6 +134,7 @@ const events = require('./models/gmailModel')
 async function intercomConversationInsertMany(query){
     // console.log(query)
     const res = await events.insertMany(query)
+    console.log("db entry")
     // console.log(res);
 }
 
@@ -199,7 +200,7 @@ function getMailBody(res){
 }
 
 function filterData(data, email){
-    console.log(data, "data")
+    // console.log(data, "data")
     let payload = {
         "user_email": email,
         "source": "email",
