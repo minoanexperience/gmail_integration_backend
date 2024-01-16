@@ -30,7 +30,7 @@ router.get('/hello', (req, res) => {
 
 async function getMails(pageToken){
     const gmail = google.gmail({"version": "v1", auth: oauth2Client})
-    // console.log(gmail, "gmail")
+    console.log(gmail, "gmail")
 
 
     const relist = await gmail.users.messages.list({
@@ -40,22 +40,22 @@ async function getMails(pageToken){
     });
 
 
-    // console.log(relist, "list");
+    console.log(relist, "list");
 
     let mailList = []
     for (let i = 0; i < relist.data.messages.length; i++){
         const message = relist.data.messages[i];
-        // console.log(message, "message")
+        console.log(message, "message")
         const msg = await gmail.users.messages.get({
             userId: 'me',
             id: message.id,
             format: "full"
         });
-        // console.log(msg.data, "msg")
+        console.log(msg.data, "msg")
         mailList.push(msg.data)
     }
 
-    // console.log(mailList, "mailList")
+    console.log(mailList, "mailList")
 
     return {
         list: mailList,
