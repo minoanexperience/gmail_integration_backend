@@ -129,6 +129,14 @@ router.get('/authorize', async (req, res) => {
     }
 });
 
+const events = require('./models/gmailModel')
+
+async function intercomConversationInsertMany(query){
+    // console.log(query)
+    const res = await events.insertMany(query)
+    // console.log(res);
+}
+
 const fetchGoogleData = async () => {
     // Implement your logic to interact with Google APIs using the googleapis library
     // For example, you can use the OAuth2 client to authenticate and make requests
@@ -213,7 +221,7 @@ async function getMailList(pageToken, email){
     console.log(getMailFilter(email), "filters")
     const relist = await gmail.users.messages.list({
         userId: 'me',
-        maxResults: 10,
+        maxResults: 150,
         q: getFilterString(email),
         pageToken: pageToken
     });
@@ -250,8 +258,9 @@ async function handleMailSync(email){
     do {
         let res = await getMailList(pageToken, email)
         pageToken = res.nextPageToken
-        console.log(res);
-    } while(pageToken && ++count < 2);
+        await intercomConversationInsertMany(res.list)
+        // console.log(res);
+    } while(pageToken);
 }
 
 function bulkSync(){
