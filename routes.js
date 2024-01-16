@@ -160,9 +160,50 @@ function getMailFilter(email){
     return "to:" + email + " OR " + "from:" + email + " OR " + "cc:" + email + " OR " + "bcc:" + email;
 }
 
-function filterData(data){
+function getBodyFromParts(res){
+    let rawBody = res.payload?.parts
+    // console.log(rawBody)
+    if (!rawBody) return ""
+
+    let decodedBody = ""
+    for (let index = 0; index < rawBody.length; index++){
+        let item = rawBody[index]
+        // console.log(item)
+        // console.log(item.mimeType)
+        if(item.mimeType === "text/html"){
+            decodedBody = item.body.data;
+            break;
+        }
+        else if(item["mimeType"] === "text/plain"){
+            decodedBody = item.body.data;
+        }
+    }
+    // console.log(decodedBody);
+
+    return decodedBody
+}
+
+function getMailBody(res){
+    let rawBody = res.payload.body?.data
+    if (!rawBody) return getBodyFromParts(res)
+
+    return rawBody
+}
+
+function filterData(data, email){
     console.log(data, "data")
-    return data
+    let payload = {
+        "user_email": email,
+        "source": "email",
+        "id": data.id,
+        "snippet": data.snippet,
+        "to": getHeadersData(data.payload.headers, "To"),
+        "from": getHeadersData(data.payload.headers, "From"),
+        "created_at": getHeadersData(data.payload.headers, "Date"),
+        "body": getMailBody(data)
+    }
+
+    return payload
 }
 
 async function getMailList(pageToken, email){
@@ -190,7 +231,7 @@ async function getMailList(pageToken, email){
             format: "full"
         });
         // console.log(msg.data, "msg")
-        mailList.push(filterData(msg.data))
+        mailList.push(filterData(msg.data, email))
     }
 
     // console.log(mailList, "mailList")
