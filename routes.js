@@ -93,7 +93,6 @@ router.post('/auth', async (req, res) => {
     //     res.status(400).json({ error: 'Error getting code for authorisation' });
     // }
 
-
     let {tokens} = await oauth2Client.getToken(code);
     console.log(tokens, "response")
     // let tokens = {
