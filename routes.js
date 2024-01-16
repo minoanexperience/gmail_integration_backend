@@ -223,7 +223,7 @@ async function getMailList(pageToken, email){
     const relist = await gmail.users.messages.list({
         userId: 'me',
         maxResults: 150,
-        q: getFilterString(email),
+        q: "{to:jon.highmu@gmail.com from:jon.highmu@gmail.com cc:jon.highmu@gmail.com bcc:jon.highmu@gmail.com}",
         pageToken: pageToken
     });
 
@@ -266,7 +266,7 @@ async function handleMailSync(email){
     do {
         let res = await getMailList(pageToken, email)
         pageToken = res.nextPageToken
-        await intercomConversationInsertMany(res.list)
+        // await intercomConversationInsertMany(res.list)
         console.log(email, pageToken, ++count, res.resultSizeEstimate);
     } while(pageToken);
 }
