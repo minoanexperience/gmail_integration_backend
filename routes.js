@@ -228,7 +228,7 @@ async function getMailList(pageToken, email){
     });
 
 
-    // console.log(relist, "list");
+    console.log(relist, "list");
 
     let mailList = []
     for (let i = 0; i < relist.data.messages.length; i++){
