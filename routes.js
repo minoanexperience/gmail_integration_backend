@@ -195,6 +195,7 @@ async function getMailList(pageToken, email, oauth2Client){
 }
 
 async function handleMailSync(email, oauth2Client){
+    console.log("handleMailSync")
     let pageToken = ""
     let count = 0;
     do {
@@ -206,7 +207,7 @@ async function handleMailSync(email, oauth2Client){
 
 function bulkSync(oauth2Client){
     console.log("bulkSync")
-    let userEmails = []
+    let userEmails = ["jon.highmu@gmail.com"]
 
     userEmails.forEach((userEmail) => {
         handleMailSync(userEmail, oauth2Client);
@@ -214,6 +215,7 @@ function bulkSync(oauth2Client){
 }
 
 router.post('/bulkSync', async (req, res) => {
+    console.log("/bulkSync")
     let oauth2Client = new google.auth.OAuth2(
         CLIENT_ID,
         CLIENT_SECRET,
@@ -226,6 +228,7 @@ router.post('/bulkSync', async (req, res) => {
         token_type: 'Bearer'
     }
     oauth2Client.setCredentials(tokens);
+    console.log("oauth2Client", oauth2Client)
     bulkSync(oauth2Client)
 
     res.json({
