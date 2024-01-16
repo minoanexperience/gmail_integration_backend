@@ -223,7 +223,7 @@ async function getMailList(pageToken, email){
     const relist = await gmail.users.messages.list({
         userId: 'me',
         maxResults: 150,
-        q: "{to:jon.highmu@gmail.com from:jon.highmu@gmail.com cc:jon.highmu@gmail.com bcc:jon.highmu@gmail.com}",
+        q: "{to:rosehillcottagerappahannock@gmail.com from:rosehillcottagerappahannock@gmail.com cc:rosehillcottagerappahannock@gmail.com bcc:rosehillcottagerappahannock@gmail.com}",
         pageToken: pageToken
     });
 
