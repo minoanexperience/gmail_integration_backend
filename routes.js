@@ -213,7 +213,7 @@ async function bulkSync(oauth2Client){
     })
 }
 
-router.post('/bulkSync', async () => {
+router.post('/bulkSync', async (req, res) => {
     let oauth2Client = new google.auth.OAuth2(
         CLIENT_ID,
         CLIENT_SECRET,
@@ -227,6 +227,10 @@ router.post('/bulkSync', async () => {
     }
     oauth2Client.setCredentials(tokens);
     bulkSync(oauth2Client)
+
+    res.json({
+        "res": "done"
+    })
 })
 
 
