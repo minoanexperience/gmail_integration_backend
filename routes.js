@@ -133,6 +133,9 @@ router.delete("cleardb", async (req, res) => {
     await intercomConversationDeleteMany({
         "source": "email"
     })
+    res.json({
+        "res": "done"
+    })
 })
 
 const events = require('./models/gmailModel')
