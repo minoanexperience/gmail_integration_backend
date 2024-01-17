@@ -6,6 +6,7 @@ const { google } = require('googleapis');
 const cron = require("node-cron");
 const {Base64} = require('js-base64');
 const HTMLParser = require('node-html-parser');
+const { BSON } = require('bson');
 
 const router = express.Router();
 router.use(bodyParser.json());
@@ -217,7 +218,7 @@ function getMailBody(res){
 
 function filterData(data, email){
     // console.log(data, "data")
-    console.log(new Date(getHeadersData(data.payload.headers, "Date")))
+    console.log(BSON.serialize(new Date(getHeadersData(data.payload.headers, "Date"))))
     console.log(getHeadersData(data.payload.headers, "Date"))
     let payload = {
         "user_email": email,
