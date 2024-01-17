@@ -149,10 +149,17 @@ async function intercomConversationDeleteMany(query){
 }
 
 async function intercomConversationInsertMany(query){
-    // console.log(query, "query")
-    const res = await events.insertMany(query)
-    console.log("db entry")
-    // console.log(res);
+    try {
+        // console.log(query, "query")
+        const res = await events.insertMany(query)
+        console.log("db entry")
+        // console.log(res);
+    }
+    catch (e) {
+        console.log(query, "query")
+        console.log(e)
+
+    }
 }
 
 const fetchGoogleData = async () => {
@@ -332,7 +339,7 @@ async function bulkSync(){
 
     // const userEmails = ["himelissaromano@gmail.com"]
     // 12198
-    for (let i = 12198; i < userEmails.length; i++){
+    for (let i = 12211; i < 12211 + 1; i++){
         console.log("**************************************** count : " + i + "   *************************************");
         await handleMailSync(userEmails[i])
     }
