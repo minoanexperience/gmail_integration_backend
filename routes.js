@@ -219,6 +219,7 @@ async function getMailList(pageToken, email){
     const gmail = google.gmail({"version": "v1", auth: oauth2Client})
     // console.log(gmail, "gmail")
 
+    console.log(gmail, "gmail")
     console.log(getMailFilter(email), "filters")
     const relist = await gmail.users.messages.list({
         userId: 'me',
