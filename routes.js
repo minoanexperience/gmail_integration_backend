@@ -289,8 +289,10 @@ async function getMailList(pageToken, email){
         }
 
         // console.log(mailList, "mailList")
-        const list = mailList.map((item) => {
-            if(item.status === "fulfilled") return item.value;
+        const list = mailList.filter((item) => {
+            if(item.status === "fulfilled" && item?.value && item.value?.created_at) return item;
+        }).map((item) => {
+            return item.value;
         })
 
         // console.log(list, "list")
