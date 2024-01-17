@@ -289,9 +289,12 @@ async function getMailList(pageToken, email){
         }
 
         console.log(mailList, "mailList")
+        const list = mailList.filter((item) => {
+            if(item.status === "fulfilled") return mailList
+        })
 
         return {
-            list: mailList,
+            list: list,
             nextPageToken: relist.data?.nextPageToken,
             resultSizeEstimate: relist.data.resultSizeEstimate
         }
