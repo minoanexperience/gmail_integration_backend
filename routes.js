@@ -224,7 +224,7 @@ function filterData(data, email){
         "snippet": data.snippet,
         "to": getHeadersData(data.payload.headers, "To"),
         "from": getHeadersData(data.payload.headers, "From"),
-        "created_at": getHeadersData(data.payload.headers, "Date"),
+        "created_at": new Date(getHeadersData(data.payload.headers, "Date")),
         "body": getMailBody(data)
     }
 
