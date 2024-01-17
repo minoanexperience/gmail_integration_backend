@@ -229,14 +229,13 @@ async function getMailList(pageToken, email){
             pageToken: pageToken
         });
 
-
         // console.log(relist, "list");
 
         let mailList = []
         if (relist.data.resultSizeEstimate > 0) {
             mailList = await Promise.allSettled(
-                relist.data.messages.filter((message) => {
-                    const msg = gmail.users.messages.get({
+                relist.data.messages.filter(async (message) => {
+                    const msg = await gmail.users.messages.get({
                         userId: 'me',
                         id: message.id,
                         format: "full"
