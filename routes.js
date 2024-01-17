@@ -149,7 +149,7 @@ async function intercomConversationDeleteMany(query){
 }
 
 async function intercomConversationInsertMany(query){
-    // console.log(query)
+    console.log(query, "query")
     const res = await events.insertMany(query)
     console.log("db entry")
     // console.log(res);
@@ -289,7 +289,7 @@ async function getMailList(pageToken, email){
         }
 
         console.log(mailList, "mailList")
-        const list = mailList.filter((item) => {
+        const list = mailList.map((item) => {
             if(item.status === "fulfilled") return item.value;
         })
 
