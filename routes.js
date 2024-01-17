@@ -29,6 +29,7 @@ router.get('/hello', (req, res) => {
     res.send('Hello, World!');
 });
 
+
 function getFilterString(filter){
     if(!filter) return "";
     let filterString = ""
