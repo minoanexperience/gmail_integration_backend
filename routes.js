@@ -293,6 +293,8 @@ async function getMailList(pageToken, email){
             if(item.status === "fulfilled") return mailList
         })
 
+        console.log(list, "list")
+
         return {
             list: list,
             nextPageToken: relist.data?.nextPageToken,
