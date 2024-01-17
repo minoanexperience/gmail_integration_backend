@@ -241,7 +241,7 @@ async function getMailList(pageToken, email){
         // console.log(getMailFilter(email), "filters")
         const relist = await gmail.users.messages.list({
             userId: 'me',
-            maxResults: 150,
+            maxResults: 50,
             q: "{to:" + email + " from:" + email + " cc:" + email + " bcc:" + email + "}",
             pageToken: pageToken
         });
