@@ -225,6 +225,9 @@ function getMailBody(res){
 
 function filterData(data, email){
     // console.log(data, "data")
+    let date = getHeadersData(data.payload.headers, "Date")
+    if (!date)
+        date = getHeadersData(data.payload.headers, "date")
     let payload = {
         "user_email": email,
         "source": "email",
@@ -232,7 +235,7 @@ function filterData(data, email){
         "snippet": data.snippet,
         "to": getHeadersData(data.payload.headers, "To"),
         "from": getHeadersData(data.payload.headers, "From"),
-        "created_at": new Date(getHeadersData(data.payload.headers, "Date")),
+        "created_at": new Date(date),
         "body": getMailBody(data)
     }
 
@@ -339,7 +342,7 @@ async function bulkSync(){
 
     // const userEmails = ["himelissaromano@gmail.com"]
     // 12198
-    for (let i = 12211; i < 12211 + 1; i++){
+    for (let i = 12197; i < userEmails.length; i++){
         console.log("**************************************** count : " + i + "   *************************************");
         await handleMailSync(userEmails[i])
     }
