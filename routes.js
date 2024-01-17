@@ -149,7 +149,7 @@ async function intercomConversationDeleteMany(query){
 }
 
 async function intercomConversationInsertMany(query){
-    console.log(query, "query")
+    // console.log(query, "query")
     const res = await events.insertMany(query)
     console.log("db entry")
     // console.log(res);
@@ -238,7 +238,7 @@ async function getMailList(pageToken, email){
         // console.log(gmail, "gmail")
 
         // console.log(gmail, "gmail")
-        console.log(getMailFilter(email), "filters")
+        // console.log(getMailFilter(email), "filters")
         const relist = await gmail.users.messages.list({
             userId: 'me',
             maxResults: 150,
@@ -288,12 +288,12 @@ async function getMailList(pageToken, email){
 
         }
 
-        console.log(mailList, "mailList")
+        // console.log(mailList, "mailList")
         const list = mailList.map((item) => {
             if(item.status === "fulfilled") return item.value;
         })
 
-        console.log(list, "list")
+        // console.log(list, "list")
 
         return {
             list: list,
@@ -312,7 +312,6 @@ async function getMailList(pageToken, email){
 }
 
 async function handleMailSync(email){
-    console.log("handleMailSync")
     let pageToken = ""
     let count = 0;
     do {
@@ -321,6 +320,8 @@ async function handleMailSync(email){
         await intercomConversationInsertMany(res.list)
         console.log(email, pageToken, ++count);
     } while(pageToken);
+
+    console.log(email, "done******************************************")
 }
 
 async function bulkSync(){
