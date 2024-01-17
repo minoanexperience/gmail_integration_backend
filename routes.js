@@ -290,7 +290,7 @@ async function getMailList(pageToken, email){
 
         console.log(mailList, "mailList")
         const list = mailList.filter((item) => {
-            if(item.status === "fulfilled") return mailList
+            if(item.status === "fulfilled") return item.value;
         })
 
         console.log(list, "list")
