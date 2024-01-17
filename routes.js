@@ -260,7 +260,7 @@ async function getMailList(pageToken, email){
 
                     console.log("message id: ", message.id);
                     const payload = filterData(msg.data, email)
-                    console.log(payload, "payload")
+                    // console.log(payload, "payload")
                     if (payload.created_at)
                         return payload
                     else {
