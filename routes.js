@@ -217,6 +217,8 @@ function getMailBody(res){
 
 function filterData(data, email){
     // console.log(data, "data")
+    console.log(new Date(getHeadersData(data.payload.headers, "Date")))
+    console.log(getHeadersData(data.payload.headers, "Date"))
     let payload = {
         "user_email": email,
         "source": "email",
