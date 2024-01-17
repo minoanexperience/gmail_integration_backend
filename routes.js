@@ -332,6 +332,7 @@ async function bulkSync(){
 
     // const userEmails = ["himelissaromano@gmail.com"]
     for (let i = 0; i < userEmails.length; i++){
+        console.log("**************************************** count : " + i + "   *************************************");
         await handleMailSync(userEmails[i])
     }
 }
