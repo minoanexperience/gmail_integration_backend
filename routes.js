@@ -31,7 +31,7 @@ const SCOPES = 'https://www.googleapis.com/auth/gmail.readonly email';
 let oauth2Client = new google.auth.OAuth2(
     CLIENT_ID,
     CLIENT_SECRET,
-    "https://4d38-182-69-183-251.ngrok-free.app/auth"
+    "https://minoan-gmail.minoanexperience.com/auth"
 );
 
 router.get('/hello', (req, res) => {
