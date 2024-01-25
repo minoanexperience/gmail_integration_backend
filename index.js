@@ -16,7 +16,7 @@ app.use(cors());
 
 app.use('/', routes);
 
-mongoose.connect('mongodb+srv://tqBFad4UAAkYxhKK:tqBFad4UAAkYxhKK@cluster0.fzwy1.mongodb.net/AllCRMEvents?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://tqBFad4UAAkYxhKK:tqBFad4UAAkYxhKK@cluster0.fzwy1.mongodb.net/?retryWrites=true&w=majority', {
     useNewUrlParser: true
 })    .then(() => {
     console.log('Connected to MongoDB');
