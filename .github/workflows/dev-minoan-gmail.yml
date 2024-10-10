@@ -16,6 +16,22 @@ jobs:
       uses: actions/checkout@v1
     - run: npm install
     - run: tar zcf minoan-gmail-api-service.tar.gz *
+
+    - name: Set up OpenVPN and log output
+      run: |
+        echo -e "${{ secrets.VPN_OVPN_FILE }}" > ~/vpn-config.ovpn  # Write VPN file with proper formatting
+        sudo apt-get update
+        sudo apt-get install -y openvpn
+        sudo openvpn --config ~/vpn-config.ovpn --daemon --log /tmp/openvpn.log --verb 4  # Run OpenVPN as a daemon with increased verbosity
+        sleep 10  # Give OpenVPN time to start
+        sudo cat /tmp/openvpn.log  # Output OpenVPN log for debugging
+    
+    - name: Verify VPN connection
+      run: |
+        #sleep 15
+        ifconfig  # Show network interfaces
+        curl ifconfig.me  # Check if VPN IP is active
+
     - name: executing remote ssh commands using ssh key
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
@@ -28,7 +44,21 @@ jobs:
     needs: build
     name: "Deploy to server"
     runs-on: ubuntu-latest
-    steps: 
+    steps:
+      - name: Set up OpenVPN and log output
+        run: |
+          echo -e "${{ secrets.VPN_OVPN_FILE }}" > ~/vpn-config.ovpn  # Write VPN file with proper formatting
+          sudo apt-get update
+          sudo apt-get install -y openvpn
+          sudo openvpn --config ~/vpn-config.ovpn --daemon --log /tmp/openvpn.log --verb 4  # Run OpenVPN as a daemon with increased verbosity
+          sleep 10  # Give OpenVPN time to start
+          sudo cat /tmp/openvpn.log  # Output OpenVPN log for debugging
+
+      - name: Verify VPN connection
+        run: |
+          # sleep 15
+          curl ifconfig.me  # Check if VPN IP is active
+ 
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -45,5 +75,10 @@ jobs:
           SSH_USER: ${{ secrets.minoangmail_EC2_USER }}
           SSH_KEY: ${{ secrets.minoangmail_EC2_KEY }}
           SSH_HOST: ${{ secrets.minoangmail_EC2_HOST }}
+
+      - name: Test VPN connection
+        run: |
+          curl ifconfig.me  # Check the public IP to ensure it's from the VPN
+
       - name: server
         run: ssh test 'sudo cp /home/ubuntu/minoan-gmail-api-service.tar.gz /var/www/dev-minoan-gmail && cd /var/www/dev-minoan-gmail && sudo tar zxf minoan-gmail-api-service.tar.gz && sudo rm -rf minoan-gmail-api-service.tar.gz && sudo pm2 restart dev-minoan-gmail'
