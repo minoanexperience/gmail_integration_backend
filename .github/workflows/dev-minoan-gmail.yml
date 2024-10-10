@@ -15,12 +15,12 @@ jobs:
     - name: Git checkout
       uses: actions/checkout@v1
     - run: npm install
-    - run: tar zcf api-service.tar.gz *
+    - run: tar zcf minoan-gmail-api-service.tar.gz *
     - name: executing remote ssh commands using ssh key
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
         SSH_PRIVATE_KEY: ${{ secrets.minoangmail_EC2_KEY }}
-        SOURCE: "api-service.tar.gz"
+        SOURCE: "minoan-gmail-api-service.tar.gz"
         REMOTE_HOST: ${{ secrets.minoangmail_EC2_HOST }}
         REMOTE_USER: ${{ secrets.minoangmail_EC2_USER }}
         TARGET: ${{ secrets.minoangmail_EC2_TARGET }}
@@ -46,4 +46,4 @@ jobs:
           SSH_KEY: ${{ secrets.minoangmail_EC2_KEY }}
           SSH_HOST: ${{ secrets.minoangmail_EC2_HOST }}
       - name: server
-        run: ssh test 'sudo cp /home/ubuntu/api-service.tar.gz /var/www/dev-minoan-gmail && cd /var/www/dev-minoan-gmail && sudo tar zxf api-service.tar.gz && sudo rm -rf api-service.tar.gz && sudo pm2 restart dev-minoan-gmail'
+        run: ssh test 'sudo cp /home/ubuntu/minoan-gmail-api-service.tar.gz /var/www/dev-minoan-gmail && cd /var/www/dev-minoan-gmail && sudo tar zxf minoan-gmail-api-service.tar.gz && sudo rm -rf minoan-gmail-api-service.tar.gz && sudo pm2 restart dev-minoan-gmail'
