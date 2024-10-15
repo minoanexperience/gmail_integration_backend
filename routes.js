@@ -192,9 +192,9 @@ router.post('/authorize', async (req, res) => {
         // Your Google API logic here
         console.log(req.body, "req params")
         const user_email = req.body?.user_email
-        if(!user_email){
-            res.status(400).json({error: 'user email not selected'})
-        }
+        // if(!user_email){
+        //     res.status(400).json({error: 'user email not selected'})
+        // }
         const result = await fetchGoogleData(user_email); // Replace with your actual Google API function
         res.json({redirectUrl: result});
 
