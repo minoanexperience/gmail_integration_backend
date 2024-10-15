@@ -12,7 +12,12 @@ const mongoose = require('mongoose');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan());
-app.use(cors());
+
+const corsOptions = {
+    credentials: true,
+    origin: ['https://minoan-gmail.minoanexperience.com']
+};
+app.use(cors(corsOptions));
 
 app.use('/', routes);
 
